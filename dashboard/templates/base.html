@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Farmer Assist</title>
+    <style>
+        body { font-family: Arial; margin: 40px; }
+        nav a { margin-right: 15px; }
+        .container { max-width: 800px; margin: auto; }
+        button { padding: 8px 15px; }
+        input, textarea { padding: 8px; width: 100%; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+
+<script>
+  // global Firebase configuration – make sure these match the values used
+  // in the standalone templates so every page can rely on the SDK.
+  const firebaseConfig = {
+    apiKey: "AIzaSyBsuxloLI3mCbDM0iEGuKPir0vPyLvI1LI",
+    authDomain: "farmerassistant-a3fa3.firebaseapp.com",
+    projectId: "farmerassistant-a3fa3",
+    storageBucket: "farmerassistant-a3fa3.appspot.com",
+    messagingSenderId: "123456789",
+    appId: "1:123456789:web:abc123def456"
+  };
+
+  // safe to call multiple times; Firebase ignores extra inits
+  if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+  }
+</script>
+
+<nav>
+    <a href="/dashboard/">Dashboard</a>
+    <a href="/chat-ui/">Chat</a>
+    <a href="/profile-ui/">Profile</a>
+</nav>
+
+<hr>
+
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
+
+</body>
+</html>

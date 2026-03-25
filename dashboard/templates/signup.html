@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Assist - Sign Up</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .signup-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            padding: 40px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo h1 {
+            color: #10b981;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .logo p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #10b981;
+            box-shadow: 0 0 5px rgba(16, 185, 129, 0.2);
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .two-col .form-group {
+            margin-bottom: 0;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: #10b981;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background: #059669;
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .login-link a {
+            color: #10b981;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: #dc2626;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .loader {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .loader span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10b981;
+            margin: 0 4px;
+            animation: bounce 1.4s infinite;
+        }
+
+        .loader span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .loader span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes bounce {
+            0%, 80%, 100% {
+                transform: scale(0);
+                opacity: 0.5;
+            }
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .password-strength {
+            margin-top: 5px;
+            height: 4px;
+            background: #ddd;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .strength-bar {
+            height: 100%;
+            width: 0%;
+            background: #dc2626;
+            transition: width 0.3s;
+        }
+
+        .strength-bar.medium {
+            background: #f59e0b;
+            width: 50%;
+        }
+
+        .strength-bar.strong {
+            background: #10b981;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <div class="logo">
+            <h1>🌾 Farmer Assist</h1>
+            <p>Join Our Agricultural Community</p>
+        </div>
+
+        <form id="signupForm">
+            <div class="form-group">
+                <label for="username">Full Name</label>
+                <input type="text" id="username" placeholder="Enter your full name" required>
+                <div class="error-message" id="usernameError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" placeholder="Enter your email" required>
+                <div class="error-message" id="emailError"></div>
+            </div>
+
+            <div class="two-col">
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" placeholder="Your location" required>
+                </div>
+                <div class="form-group">
+                    <label for="crop">Main Crop</label>
+                    <input type="text" id="crop" placeholder="e.g., Wheat, Rice" required>
+                </div>
+            </div>
+
+            <div class="two-col">
+                <div class="form-group">
+                    <label for="farmsize">Farm Size (acres)</label>
+                    <input type="number" id="farmsize" placeholder="0" step="0.1" required>
+                </div>
+                <div class="form-group">
+                    <label for="soiltype">Soil Type</label>
+                    <select id="soiltype" required>
+                        <option value="">Select soil type</option>
+                        <option value="Loamy">Loamy</option>
+                        <option value="Sandy">Sandy</option>
+                        <option value="Clayey">Clayey</option>
+                        <option value="Silty">Silty</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter a strong password" required>
+                <div class="password-strength">
+                    <div class="strength-bar" id="strengthBar"></div>
+                </div>
+                <div class="error-message" id="passwordError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+                <div class="error-message" id="confirmError"></div>
+            </div>
+
+            <div class="loader" id="loader">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <button type="submit" class="btn" id="signupBtn">Create Account</button>
+            <div class="error-message" id="generalError"></div>
+        </form>
+
+        <div class="login-link">
+            Already have an account? <a href="/login-ui/">Login here</a>
+        </div>
+    </div>
+
+    <!-- use compat libs so existing firebase.auth() code works -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBsuxloLI3mCbDM0iEGuKPir0vPyLvI1LI",
+            authDomain: "farmerassistant-a3fa3.firebaseapp.com",
+            projectId: "farmerassistant-a3fa3",
+            storageBucket: "farmerassistant-a3fa3.appspot.com",
+            messagingSenderId: "123456789",
+            appId: "1:123456789:web:abc123def456"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        const signupForm = document.getElementById('signupForm');
+        const signupBtn = document.getElementById('signupBtn');
+        const loader = document.getElementById('loader');
+        const passwordInput = document.getElementById('password');
+        const strengthBar = document.getElementById('strengthBar');
+
+        // Password strength indicator
+        passwordInput.addEventListener('input', (e) => {
+            const password = e.target.value;
+            const strength = getPasswordStrength(password);
+            
+            strengthBar.className = 'strength-bar';
+            if (strength >= 3) {
+                strengthBar.classList.add('strong');
+            } else if (strength >= 2) {
+                strengthBar.classList.add('medium');
+            }
+        });
+
+        function getPasswordStrength(password) {
+            let strength = 0;
+            if (password.length >= 8) strength++;
+            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+            if (/\d/.test(password)) strength++;
+            if (/[^a-zA-Z\d]/.test(password)) strength++;
+            return strength;
+        }
+
+        signupForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            clearErrors();
+
+            const username = document.getElementById('username').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const location = document.getElementById('location').value.trim();
+            const crop = document.getElementById('crop').value.trim();
+            const farmsize = document.getElementById('farmsize').value;
+            const soiltype = document.getElementById('soiltype').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            // Validation
+            if (!username || !email || !location || !crop || !farmsize || !soiltype || !password) {
+                showError('generalError', 'All fields are required');
+                return;
+            }
+
+            if (password.length < 8) {
+                showError('passwordError', 'Password must be at least 8 characters');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showError('confirmError', 'Passwords do not match');
+                return;
+            }
+
+            showLoader();
+            signupBtn.disabled = true;
+
+            try {
+                // Create Firebase user
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+
+                // Update profile
+                await user.updateProfile({
+                    displayName: username
+                });
+
+                // Register user on backend
+                const idToken = await user.getIdToken();
+                const registerResponse = await fetch('/api/register/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + idToken
+                    },
+                    body: JSON.stringify({
+                        name: username,
+                        location: location,
+                        main_crop: crop,
+                        farm_size: farmsize,
+                        soil_type: soiltype
+                    })
+                });
+
+                if (!registerResponse.ok) {
+                    throw new Error('Failed to register profile');
+                }
+
+                // Save to localStorage
+                localStorage.setItem('idToken', idToken);
+                localStorage.setItem('uid', user.uid);
+                localStorage.setItem('email', user.email);
+                localStorage.setItem('username', username);
+
+                // Redirect to dashboard
+                setTimeout(() => {
+                    window.location.href = '/dashboard/';
+                }, 500);
+
+            } catch (error) {
+                hideLoader();
+                signupBtn.disabled = false;
+
+                if (error.code === 'auth/email-already-in-use') {
+                    showError('generalError', 'This email is already registered');
+                } else if (error.code === 'auth/invalid-email') {
+                    showError('generalError', 'Invalid email address');
+                } else if (error.code === 'auth/weak-password') {
+                    showError('passwordError', 'Password is too weak');
+                } else {
+                    showError('generalError', error.message);
+                }
+            }
+        });
+
+        function showError(elementId, message) {
+            const errorElement = document.getElementById(elementId);
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+
+        function clearErrors() {
+            document.querySelectorAll('.error-message').forEach(el => {
+                el.style.display = 'none';
+            });
+        }
+
+        function showLoader() {
+            loader.style.display = 'block';
+            signupBtn.textContent = 'Creating Account...';
+        }
+
+        function hideLoader() {
+            loader.style.display = 'none';
+            signupBtn.textContent = 'Create Account';
+        }
+
+        // Check if already logged in
+        window.addEventListener('load', () => {
+            const token = localStorage.getItem('idToken');
+            if (token) {
+                window.location.href = '/dashboard/';
+            }
+        });
+    </script>
+</body>
+</html>

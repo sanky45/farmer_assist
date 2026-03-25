@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Assist - Profile</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .navbar-menu {
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+
+        .navbar-menu a.active {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .logout-btn {
+            background: #ff4757;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .profile-card {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #10b981;
+        }
+
+        .profile-header h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .profile-header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #10b981;
+            box-shadow: 0 0 5px rgba(16, 185, 129, 0.2);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-primary {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #059669;
+        }
+
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: #e5e7eb;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #d1d5db;
+        }
+
+        .message {
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .message.success {
+            background: #d1fae5;
+            color: #065f46;
+            display: block;
+        }
+
+        .message.error {
+            background: #fee2e2;
+            color: #991b1b;
+            display: block;
+        }
+
+        .loader {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .loader span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10b981;
+            margin: 0 4px;
+            animation: bounce 1.4s infinite;
+        }
+
+        .loader span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .loader span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes bounce {
+            0%, 80%, 100% {
+                transform: scale(0);
+                opacity: 0.5;
+            }
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .profile-avatar {
+            font-size: 64px;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .profile-card {
+                padding: 25px;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-brand">🌾 Farmer Assist</div>
+        <div class="navbar-menu">
+            <a href="/dashboard/">Dashboard</a>
+            <a href="/chat-ui/">Chat</a>
+            <a href="/profile-ui/" class="active">Profile</a>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Profile Container -->
+    <div class="container">
+        <div class="profile-card">
+            <div class="profile-header">
+                <div class="profile-avatar">👨‍🌾</div>
+                <h1>My Farm Profile</h1>
+                <p>Update your farming information to get personalized recommendations</p>
+            </div>
+
+            <div class="message" id="successMessage"></div>
+            <div class="message" id="errorMessage"></div>
+
+            <form id="profileForm">
+                <div class="form-group">
+                    <label for="name">Full Name *</label>
+                    <input type="text" id="name" placeholder="Enter your full name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="location">Location *</label>
+                    <input type="text" id="location" placeholder="Your city/region" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="main_crop">Main Crop *</label>
+                    <input type="text" id="main_crop" placeholder="e.g., Wheat, Rice, Corn" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="farm_size">Farm Size (acres) *</label>
+                    <input type="number" id="farm_size" placeholder="Enter farm size" step="0.1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="soil_type">Soil Type *</label>
+                    <select id="soil_type" required>
+                        <option value="">Select soil type</option>
+                        <option value="Loamy">Loamy</option>
+                        <option value="Sandy">Sandy</option>
+                        <option value="Clayey">Clayey</option>
+                        <option value="Silty">Silty</option>
+                    </select>
+                </div>
+
+                <div class="loader" id="loader">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary" id="saveBtn">Save Changes</button>
+                    <button type="button" class="btn btn-secondary" onclick="location.href='/dashboard/'">Back to Dashboard</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // simple checker using stored idToken rather than firebase SDK
+        function requireAuth() {
+            const token = localStorage.getItem('idToken');
+            if (!token) {
+                window.location.href = '/login-ui/';
+                throw new Error('redirect');
+            }
+        }
+
+        // ensure profile data loads once we know user is authenticated
+        window.addEventListener('load', () => {
+            try {
+                requireAuth();
+                loadProfile();
+            } catch (e) {
+                // redirected
+            }
+        });
+
+        async function loadProfile() {
+            try {
+                const token = localStorage.getItem('idToken');
+                const response = await fetch('/profile/', {
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('name').value = data.name || '';
+                    document.getElementById('location').value = data.location || '';
+                    document.getElementById('main_crop').value = data.main_crop || '';
+                    document.getElementById('farm_size').value = data.farm_size || '';
+                    document.getElementById('soil_type').value = data.soil_type || '';
+                }
+            } catch (error) {
+                console.error('Error loading profile:', error);
+                showError('Failed to load profile');
+            }
+        }
+
+        document.getElementById('profileForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const token = localStorage.getItem('idToken');
+            const saveBtn = document.getElementById('saveBtn');
+            const loader = document.getElementById('loader');
+
+            const data = {
+                name: document.getElementById('name').value.trim(),
+                location: document.getElementById('location').value.trim(),
+                main_crop: document.getElementById('main_crop').value.trim(),
+                farm_size: document.getElementById('farm_size').value,
+                soil_type: document.getElementById('soil_type').value,
+            };
+
+            // Validation
+            if (!data.name || !data.location || !data.main_crop || !data.farm_size || !data.soil_type) {
+                showError('All fields are required');
+                return;
+            }
+
+            saveBtn.disabled = true;
+            loader.style.display = 'block';
+
+            try {
+                const response = await fetch('/profile/update/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to update profile');
+                }
+
+                showSuccess('Profile updated successfully! ✓');
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                }, 1500);
+            } catch (error) {
+                showError('Error: ' + error.message);
+            } finally {
+                saveBtn.disabled = false;
+                loader.style.display = 'none';
+            }
+        });
+
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.classList.add('error');
+            errorDiv.classList.remove('success');
+            errorDiv.style.display = 'block';
+
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        function showSuccess(message) {
+            const successDiv = document.getElementById('successMessage');
+            successDiv.textContent = message;
+            successDiv.classList.add('success');
+            successDiv.classList.remove('error');
+            successDiv.style.display = 'block';
+
+            setTimeout(() => {
+                successDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        function logout() {
+            localStorage.removeItem('idToken');
+            localStorage.removeItem('uid');
+            localStorage.removeItem('email');
+            localStorage.removeItem('username');
+            window.location.href = '/login-ui/';
+        }
+    </script>
+</body>
+</html>

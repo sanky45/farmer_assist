@@ -35,4 +35,3 @@ class CropActivityAdmin(admin.ModelAdmin):
     list_display = ['user_uid', 'activity_type', 'crop_name', 'date']
     search_fields = ['user_uid', 'crop_name']
     ordering = ['-date']
-    get_month_name.short_description = 'Month'

@@ -12,8 +12,6 @@ from .views import (
     api_expenses,
     api_activities,
     api_activity,
-    api_light_timing,
-    api_dashboard_light_timing,
     # template page views
     login_page,
     signup_page,
@@ -46,9 +44,6 @@ urlpatterns = [
     # quick activity logging
     path("activities/", api_activities),
     path("activities/log/", api_activity),
-    # light timing
-    path("light-timing/", api_light_timing),
-    path("dashboard/light-timing/", api_dashboard_light_timing),
 
     path("login-ui/", login_page, name="login"),
     path("signup-ui/", signup_page, name="signup"),

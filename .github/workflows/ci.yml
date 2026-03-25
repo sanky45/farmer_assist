@@ -41,18 +41,20 @@ jobs:
 
       - name: Run migrations & checks
         env:
-            DJANGO_SETTINGS_MODULE: core.settings
-            GOOGLE_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-            GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          DJANGO_SETTINGS_MODULE: core.settings
+          GOOGLE_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          DATABASE_URL: ${{ secrets.SUPABASE_DB_URL }}
         run: |
           python manage.py migrate --noinput
           python manage.py check
 
       - name: Run tests
         env:
-            DJANGO_SETTINGS_MODULE: core.settings
-            GOOGLE_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-            GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          DJANGO_SETTINGS_MODULE: core.settings
+          GOOGLE_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          DATABASE_URL: ${{ secrets.SUPABASE_DB_URL }}
         run: |
           pytest -q
 
